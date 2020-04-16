@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/lightbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buzzerbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="buzzer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lightbtn" />
+
+    <Button
+        android:id="@+id/lcdtextbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lcd text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buzzerbtn" />
+
+    <Button
+        android:id="@+id/lcdbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lcd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lcdtextbtn" />
+
+    <Button
+        android:id="@+id/ledbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="led"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lcdbtn" />
+
+    <Button
+        android:id="@+id/camerabtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ledbtn" />
+
+    <Button
+        android:id="@+id/relaybtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="relay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camerabtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>
