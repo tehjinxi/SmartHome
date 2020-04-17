@@ -1,5 +1,6 @@
 package com.example.smarthome
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -34,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         }
         relaybtn.setOnClickListener{
             controlLight("relay")
+        }
+
+        getDataBtn.setOnClickListener{
+            //call activity
+            val intent = Intent (this, GetDataActivity::class.java)
+            startActivity(intent)
         }
     }
 
