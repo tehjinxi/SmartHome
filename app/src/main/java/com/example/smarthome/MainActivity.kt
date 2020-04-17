@@ -42,6 +42,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent (this, GetDataActivity::class.java)
             startActivity(intent)
         }
+
+        btnAuto.setOnClickListener{
+            //call activity
+            val intent = Intent (this, AutoOnOffActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun controlLight(sensor: String){
