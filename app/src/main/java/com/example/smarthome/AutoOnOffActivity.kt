@@ -16,13 +16,17 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.time.ExperimentalTime
 
-class AutoOnOffActivity : AppCompatActivity()  {
+class AutoOnOffActivity : AppCompatActivity() {
 
-    var light = ""
-    var sound = ""
-    var ultra = ""
+    var light = "1"
+    var sound = "1"
+    var ultra = "1"
     var auto = "False"
-    var onOff = 0
+    var defaultSoundLimit = "200"
+    var soundLimit = ""
+
+    private lateinit var mHandler: Handler
+    private lateinit var mRunnable:Runnable
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalTime
@@ -34,28 +38,47 @@ class AutoOnOffActivity : AppCompatActivity()  {
         actionbar!!.title = "Auto On Off"
         actionbar.setDisplayHomeAsUpEnabled(true)
 
+        if(soundLimit == ""){
+            txtSoundLimit.setText(defaultSoundLimit)
+        }
+
         getData()
 
-        if(auto == "True"){
+        if (auto == "True") {
             btnSetAuto.setBackgroundColor(Color.GREEN)
             btnSetAuto.setTextColor(Color.BLACK)
-        }else{
+        } else {
             btnSetAuto.setBackgroundColor(Color.GRAY)
             btnSetAuto.setTextColor(Color.BLACK)
         }
 
-        btnSetAuto.setOnClickListener{
-            if(auto == "True"){
+        btnSetLimit.setOnClickListener{
+            soundLimit = txtSoundLimit.text.toString()
+            Toast.makeText(this, "Limit has been set.", Toast.LENGTH_LONG).show()
+        }
+
+        btnSetAuto.setOnClickListener {
+            if (auto == "True") {
                 auto = "False"
                 btnSetAuto.setBackgroundColor(Color.GRAY)
                 btnSetAuto.setTextColor(Color.BLACK)
-            }else{
+                mHandler.removeCallbacks(mRunnable)
+                btnSetLimit.isClickable = true
+                btnSetLimit.setBackgroundColor(Color.GRAY)
+            }else {
                 auto = "True"
                 btnSetAuto.setBackgroundColor(Color.GREEN)
                 btnSetAuto.setTextColor(Color.BLACK)
-            }
+                btnSetLimit.isClickable = false
+                btnSetLimit.setBackgroundColor(Color.DKGRAY)
 
-            check()
+                mHandler = Handler()
+                mRunnable = Runnable {
+                    check()
+                    mHandler.postDelayed(mRunnable,5000)
+                }
+                mHandler.postDelayed(mRunnable,5000)
+            }
         }
     }
 
@@ -66,18 +89,18 @@ class AutoOnOffActivity : AppCompatActivity()  {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalTime
-    private fun getData(){
+    private fun getData() {
         val current = LocalDateTime.now()
 
         val date1 = DateTimeFormatter.ofPattern("yyyyMMdd")
-        val dated = "PI_01_"+current.format(date1)
-        val hour1 =  DateTimeFormatter.ofPattern("HH")
+        val dated = "PI_01_" + current.format(date1)
+        val hour1 = DateTimeFormatter.ofPattern("HH")
         val houred = current.format(hour1)
         val time1 = DateTimeFormatter.ofPattern("mmss")
-        val timed = (current.format(time1)).substring(0,3) + "0"
+        val timed = (current.format(time1)).substring(0, 3) + "0"
 
         var ref = FirebaseDatabase.getInstance().getReference(dated).child(houred).child(timed)
-        ref.addValueEventListener(object : ValueEventListener{
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 light = p0.child("light").getValue().toString()
                 sound = p0.child("sound").getValue().toString()
@@ -91,35 +114,23 @@ class AutoOnOffActivity : AppCompatActivity()  {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalTime
-    private fun check(){
+    private fun check() {
         getData()
 
-        if(sound < "250"){
-            if(ultra > "0"){
-                light = "0"
+            if (sound.toInt() < soundLimit.toInt()) {
+                if (light == "1") {
+                    if (ultra.toInt() > 0) {
+                        light = "0"
+                    }
+                } else if (light == "0") {
+                    if (ultra.toInt() > 0) {
+                        light = "1"
+                    }
+                }
             }
-        }else{
-            if(light == "0"){
-                light = "1"
-            }else{
-                light = "0"
-            }
-        }
 
-        val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
-        database.child("lcd").setValue(light)
-
-        if(auto == "True"){
-            refresh(1000)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @ExperimentalTime
-    private fun refresh(milliseconds:Long){
-        Handler().postDelayed({
-            check()
-        }, milliseconds)
+            val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
+            database.child("led").setValue(light)
     }
 
 
