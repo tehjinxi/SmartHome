@@ -266,6 +266,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "493541403063-ttjbap2jra3fk5b2s3r1p0uplgihvvp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smarthome",
+            "certificate_hash": "aae8ddbf45fd7bf7715caa1933a9d86f051394b5"
+          }
+        },
+        {
           "client_id": "493541403063-3rfqpt0frbeh57dfp2n18qquekbg40as.apps.googleusercontent.com",
           "client_type": 3
         }

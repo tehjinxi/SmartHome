@@ -1,17 +1,25 @@
 package com.example.smarthome
 
+import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import com.squareup.picasso.Picasso
+import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_get_data.*
 import java.time.LocalDateTime
-import kotlin.time.ExperimentalTime
 import java.time.format.DateTimeFormatter
+import kotlin.time.ExperimentalTime
+
 
 class GetDataActivity : AppCompatActivity() {
 
@@ -39,6 +47,7 @@ class GetDataActivity : AppCompatActivity() {
         val path3 = timed.substring(0,3) + "0"
         datetimeView.text = path1+" "+houred+" "+path3
 
+        getImage()
         getData(path1,houred,path3)
     }
     override fun onSupportNavigateUp(): Boolean {
@@ -69,5 +78,16 @@ class GetDataActivity : AppCompatActivity() {
             }
         }
         ref.addListenerForSingleValueEvent(menuListener)
+    }
+
+    private fun getImage() {
+        val storage = Firebase.storage
+        var storageRef = storage.reference
+        storageRef.child("PI_01_CONTROL/cam_20200417155200.jpg").downloadUrl.addOnSuccessListener {
+            val image = it.toString()
+            Picasso.get().load(image).into(cameraView)
+        }.addOnFailureListener {
+            // Handle any errors
+        }
     }
 }
