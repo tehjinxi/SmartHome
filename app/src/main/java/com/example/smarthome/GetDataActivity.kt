@@ -10,7 +10,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_get_data.*
 import java.time.LocalDateTime
-import java.util.Calendar
 import kotlin.time.ExperimentalTime
 import java.time.format.DateTimeFormatter
 

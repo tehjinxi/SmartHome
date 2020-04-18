@@ -13,7 +13,7 @@
         android:text="light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ledbtn" />
 
     <Button
         android:id="@+id/buzzerbtn"
@@ -22,7 +22,7 @@
         android:text="buzzer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lightbtn" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/lcdtextbtn"
@@ -30,6 +30,46 @@
         android:layout_height="wrap_content"
         android:text="lcd text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lcdbtn" />
+
+    <Button
+        android:id="@+id/relaybtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="relay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lightbtn" />
+
+    <Button
+        android:id="@+id/btnAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Auto On Off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relaybtn" />
+
+    <Button
+        android:id="@+id/ledbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="led"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lcdtextbtn" />
+
+    <Button
+        android:id="@+id/camerabtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buzzerbtn" />
 
@@ -39,44 +79,9 @@
         android:layout_height="wrap_content"
         android:text="lcd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lcdtextbtn" />
-
-    <Button
-        android:id="@+id/ledbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="led"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lcdbtn" />
-
-    <Button
-        android:id="@+id/camerabtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ledbtn" />
-
-    <Button
-        android:id="@+id/relaybtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="relay"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/camerabtn" />
-
-    <Button
-        android:id="@+id/btnAuto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Auto On Off"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relaybtn" />
 
     <Button
         android:id="@+id/getDataBtn"

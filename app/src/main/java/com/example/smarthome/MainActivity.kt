@@ -1,12 +1,14 @@
 package com.example.smarthome
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,26 +17,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        lightbtn.setOnClickListener{
-            controlLight("light")
-        }
         buzzerbtn.setOnClickListener{
-            controlLight("buzzer")
-        }
-        ledbtn.setOnClickListener{
-            controlLight("led")
+            getSwitchData("buzzer")
         }
         camerabtn.setOnClickListener{
-            controlLight("camera")
+            getSwitchData("camera")
         }
         lcdbtn.setOnClickListener{
-            controlLight("lcd")
+            getSwitchData("lcd")
         }
-        lcdtextbtn.setOnClickListener{
-            controlLight("lcdtext")
+        ledbtn.setOnClickListener{
+            getSwitchData("led")
+        }
+        lightbtn.setOnClickListener{
+            getSwitchData("light")
         }
         relaybtn.setOnClickListener{
-            controlLight("relay")
+            getSwitchData("relay")
         }
 
         getDataBtn.setOnClickListener{
@@ -50,15 +49,45 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun controlLight(sensor: String){
+    private fun getSwitchData(sensor: String){
+        var switch = ""
+        var ref = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL").child(sensor)
+        val menuListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val piControl = dataSnapshot.getValue()
+                if(piControl != null){
+                    if(piControl == "1"){
+                        switch = "0"
+                        control(sensor,switch)
+                    }
+                    else{
+                        switch = "1"
+                        control(sensor,switch)
+                    }
+                }
 
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // handle error
+            }
+        }
+        ref.addListenerForSingleValueEvent(menuListener)
+    }
+
+    private fun control(sensor: String, switch: String){
         val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
-        database.child(sensor).setValue("1")
+        database.child(sensor).setValue(switch)
             .addOnCompleteListener{
-                Toast.makeText(this, "Switch on the light", Toast.LENGTH_LONG).show()
+                if(switch == "1"){
+                    Toast.makeText(this, "Switch on the " + sensor, Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(this, "Switch off the " + sensor, Toast.LENGTH_LONG).show()
+
+                }
             }
             .addOnFailureListener{
-                Toast.makeText(this, "Failed to Switch on the light", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to control", Toast.LENGTH_SHORT).show()
             }
     }
 }
