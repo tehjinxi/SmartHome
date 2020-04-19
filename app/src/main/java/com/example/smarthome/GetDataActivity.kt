@@ -1,20 +1,19 @@
 package com.example.smarthome
 
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
-import com.squareup.picasso.Picasso
 import com.google.firebase.storage.ktx.storage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_get_data.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -47,8 +46,10 @@ class GetDataActivity : AppCompatActivity() {
         val path3 = timed.substring(0,3) + "0"
         datetimeView.text = path1+" "+houred+" "+path3
 
-        getImage()
+        val cameraPath = "cam_" + dated + houred + path3 + ".jpg"
         getData(path1,houred,path3)
+        getImage(cameraPath)
+
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -57,7 +58,6 @@ class GetDataActivity : AppCompatActivity() {
 
     private fun getData(path1:String,path2:String,path3:String){
         var ref = FirebaseDatabase.getInstance().getReference(path1).child(path2).child(path3)
-
         val menuListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val piData = dataSnapshot.getValue(PiData::class.java)
@@ -80,10 +80,10 @@ class GetDataActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(menuListener)
     }
 
-    private fun getImage() {
+    private fun getImage(cameraPath: String) {
         val storage = Firebase.storage
         var storageRef = storage.reference
-        storageRef.child("PI_01_CONTROL/cam_20200417155200.jpg").downloadUrl.addOnSuccessListener {
+        storageRef.child("PI_01_CONTROL/" + cameraPath).downloadUrl.addOnSuccessListener {
             val image = it.toString()
             Picasso.get().load(image).into(cameraView)
         }.addOnFailureListener {
