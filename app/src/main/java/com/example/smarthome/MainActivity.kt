@@ -1,8 +1,12 @@
 package com.example.smarthome
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
@@ -12,9 +16,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_get_data.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var mHandler: Handler
+    private lateinit var mRunnable:Runnable
 
     val options = FirebaseOptions.Builder()
         .setApplicationId("1:297703301844:android:44861c0c2dc6782b489141")
@@ -27,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         FirebaseApp.initializeApp(this, options, "smart-home-iot-4b593")
-
 
         buzzerbtn.setOnClickListener{
             getSwitchData("buzzer")
@@ -62,6 +70,15 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent (this, AutoOnOffActivity::class.java)
             startActivity(intent)
         }
+
+
+
+        mHandler = Handler()
+        mRunnable = Runnable {
+            alert("alarmSys")
+            mHandler.postDelayed(mRunnable,5000)
+        }
+        mHandler.postDelayed(mRunnable,5000)
     }
 
     private fun getSwitchData(sensor: String){
@@ -152,5 +169,84 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener{
                 Toast.makeText(this, "Failed to control", Toast.LENGTH_SHORT).show()
             }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun alert(system: String){
+        val current = LocalDateTime.now()
+
+        val date1 = DateTimeFormatter.ofPattern("yyyyMMdd")
+        val dated = current.format(date1)
+        val hour1 =  DateTimeFormatter.ofPattern("HH")
+        val houred = current.format(hour1)
+        val time1 =  DateTimeFormatter.ofPattern("mmss")
+        val timed = current.format(time1)
+
+        val path1 = "PI_01_"+dated
+        //path 2 is hour
+        val path3 = timed.substring(0,3) + "0"
+
+        val secondApp = FirebaseApp.getInstance("smart-home-iot-4b593")
+        val hi = FirebaseDatabase.getInstance(secondApp).getReference(system)
+        val menuListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val piControl = dataSnapshot.getValue()
+                if(piControl != null){
+                    if(piControl == "1"){
+                        //check is buzzer on
+                        var ref = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL").child("buzzer")
+                        val menuListener = object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                val piControl2 = dataSnapshot.getValue()
+                                if(piControl2 != null){
+                                    if(piControl2 == "1"){
+                                        //check is sound more than 800
+                                        var ref = FirebaseDatabase.getInstance().getReference(path1).child(houred).child(path3)
+                                        val menuListener = object : ValueEventListener {
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                val piData = dataSnapshot.getValue(PiData::class.java)
+                                                if(piData != null){
+                                                    if(piData.sound.toInt() >= 800){
+                                                        alertBtn.visibility = View.VISIBLE
+                                                    }
+                                                    else{
+                                                        alertBtn.visibility = View.INVISIBLE
+                                                    }
+                                                }
+                                                else{
+                                                    alertBtn.visibility = View.INVISIBLE
+                                                }
+
+                                            }
+                                            override fun onCancelled(databaseError: DatabaseError) {
+                                                // handle error
+                                            }
+                                        }
+                                        ref.addListenerForSingleValueEvent(menuListener)
+                                    }
+                                    else{
+                                        alertBtn.visibility = View.INVISIBLE
+                                    }
+                                }
+
+                            }
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                // handle error
+                            }
+                        }
+                        ref.addListenerForSingleValueEvent(menuListener)
+                    }
+                    else{
+                        alertBtn.visibility = View.INVISIBLE
+                    }
+                }
+
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // handle error
+            }
+        }
+        hi.addListenerForSingleValueEvent(menuListener)
     }
 }
