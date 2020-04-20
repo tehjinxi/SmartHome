@@ -18,15 +18,15 @@ import kotlin.time.ExperimentalTime
 
 class AutoOnOffActivity : AppCompatActivity() {
 
-    var light = "1"
-    var sound = "1"
-    var ultra = "1"
-    var auto = "False"
-    var defaultSoundLimit = "200"
-    var soundLimit = ""
+    private var light = ""
+    private var sound = ""
+    private var ultra = ""
+    private var auto = "False"
+    private var defaultSoundLimit = "200"
+    private var soundLimit = ""
 
     private lateinit var mHandler: Handler
-    private lateinit var mRunnable:Runnable
+    private lateinit var mRunnable: Runnable
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalTime
@@ -38,10 +38,6 @@ class AutoOnOffActivity : AppCompatActivity() {
         actionbar!!.title = "Auto On Off"
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-        if(soundLimit == ""){
-            txtSoundLimit.setText(defaultSoundLimit)
-        }
-
         getData()
 
         if (auto == "True") {
@@ -52,9 +48,13 @@ class AutoOnOffActivity : AppCompatActivity() {
             btnSetAuto.setTextColor(Color.BLACK)
         }
 
-        btnSetLimit.setOnClickListener{
+        btnSetLimit.setOnClickListener {
             soundLimit = txtSoundLimit.text.toString()
             Toast.makeText(this, "Limit has been set.", Toast.LENGTH_LONG).show()
+        }
+
+        if (soundLimit == "") {
+            txtSoundLimit.setText(defaultSoundLimit)
         }
 
         btnSetAuto.setOnClickListener {
@@ -65,22 +65,29 @@ class AutoOnOffActivity : AppCompatActivity() {
                 mHandler.removeCallbacks(mRunnable)
                 btnSetLimit.isClickable = true
                 btnSetLimit.setBackgroundColor(Color.GRAY)
-            }else {
+            } else {
                 auto = "True"
                 btnSetAuto.setBackgroundColor(Color.GREEN)
                 btnSetAuto.setTextColor(Color.BLACK)
                 btnSetLimit.isClickable = false
                 btnSetLimit.setBackgroundColor(Color.DKGRAY)
 
+                if (soundLimit == "") {
+                    soundLimit = defaultSoundLimit
+                }
+
                 mHandler = Handler()
                 mRunnable = Runnable {
                     check()
-                    mHandler.postDelayed(mRunnable,5000)
+                    mHandler.postDelayed(mRunnable, 5000)
                 }
-                mHandler.postDelayed(mRunnable,5000)
+                mHandler.postDelayed(mRunnable, 5000)
             }
         }
+
+
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -102,21 +109,29 @@ class AutoOnOffActivity : AppCompatActivity() {
         var ref = FirebaseDatabase.getInstance().getReference(dated).child(houred).child(timed)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                light = p0.child("light").getValue().toString()
-                sound = p0.child("sound").getValue().toString()
-                ultra = p0.child("ultra").getValue().toString()
+                if(p0.child("light").value != null && p0.child("sound").value != null && p0.child("ultra").value != null){
+                    light = p0.child("light").getValue().toString()
+                    sound = p0.child("sound").getValue().toString()
+                    ultra = p0.child("ultra").getValue().toString()
+                }
+
+
             }
 
             override fun onCancelled(p0: DatabaseError) {
             }
         })
+
+        val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
+        database.child("buzzer").setValue("1")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalTime
     private fun check() {
         getData()
-
+        Toast.makeText(this, "sound:$sound ultra:$ultra light:$light", Toast.LENGTH_LONG).show()
+        if (sound != "" && ultra != "" && light != "") {
             if (sound.toInt() < soundLimit.toInt()) {
                 if (light == "1") {
                     if (ultra.toInt() > 0) {
@@ -127,10 +142,13 @@ class AutoOnOffActivity : AppCompatActivity() {
                         light = "1"
                     }
                 }
+            }else{
+                light = "1"
             }
 
             val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
             database.child("led").setValue(light)
+        }
     }
 
 

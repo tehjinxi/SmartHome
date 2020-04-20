@@ -10,17 +10,19 @@
         android:id="@+id/lightbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
         android:text="light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ledbtn" />
+        app:layout_constraintTop_toBottomOf="@+id/lcdtextbtn" />
 
     <Button
         android:id="@+id/buzzerbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="40dp"
         android:text="buzzer"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,25 +30,27 @@
         android:id="@+id/lcdtextbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
         android:text="lcd text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lcdbtn" />
+        app:layout_constraintTop_toBottomOf="@+id/camerabtn" />
 
     <Button
         android:id="@+id/relaybtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="relay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lightbtn" />
+        app:layout_constraintTop_toBottomOf="@+id/ledbtn" />
 
     <Button
         android:id="@+id/btnAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Set Auto On Off"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -57,31 +61,31 @@
         android:id="@+id/ledbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
         android:text="led"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lcdtextbtn" />
+        app:layout_constraintTop_toBottomOf="@+id/lcdbtn" />
 
     <Button
         android:id="@+id/camerabtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="80dp"
         android:text="camera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buzzerbtn" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/lcdbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
         android:text="lcd"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camerabtn" />
+        app:layout_constraintTop_toBottomOf="@+id/buzzerbtn" />
 
     <Button
         android:id="@+id/getDataBtn"
@@ -96,6 +100,7 @@
         android:id="@+id/onAlarmBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Activate Alarm System"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +110,7 @@
         android:id="@+id/alertBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Alert"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"

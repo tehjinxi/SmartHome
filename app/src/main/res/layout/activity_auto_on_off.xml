@@ -6,17 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".AutoOnOffActivity">
 
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtAdvise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:text="@string/advise"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.46"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </ScrollView>
+
     <EditText
         android:id="@+id/txtSoundLimit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 
     <Button
         android:id="@+id/btnSetLimit"

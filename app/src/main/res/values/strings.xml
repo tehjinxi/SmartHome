@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">SmartHome</string>
+    <string name="advise">
+        "<b>"Sound Limit:"</b>"
+        \nThe following number is the example of the sound volume.
+        \n   100 - Dogs bark
+        \n   200 - Humans made sounds
+        \n   300 - Television or Music
+        \n   400 - party
+        \nThe maximum of the limits is "<b>"2000"</b>".
+        \n"<b>"System will consider the place is under the limit if the place's environment sound is lower than the limit set."</b>"
+    </string>
 </resources>
