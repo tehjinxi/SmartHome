@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_auto_on_off.*
+import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.time.ExperimentalTime
@@ -130,7 +133,7 @@ class AutoOnOffActivity : AppCompatActivity() {
     @ExperimentalTime
     private fun check() {
         getData()
-        Toast.makeText(this, "sound:$sound ultra:$ultra light:$light", Toast.LENGTH_LONG).show()
+
         if (sound != "" && ultra != "" && light != "") {
             if (sound.toInt() < soundLimit.toInt()) {
                 if (light == "1") {
