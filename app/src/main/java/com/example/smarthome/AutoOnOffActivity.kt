@@ -43,6 +43,11 @@ class AutoOnOffActivity : AppCompatActivity() {
 
         getData()
 
+        if (soundLimit == "") {
+            txtSoundLimit.setText(defaultSoundLimit)
+            soundLimit = defaultSoundLimit
+        }
+
         if (auto == "True") {
             btnSetAuto.setBackgroundColor(Color.GREEN)
             btnSetAuto.setTextColor(Color.BLACK)
@@ -56,11 +61,8 @@ class AutoOnOffActivity : AppCompatActivity() {
             Toast.makeText(this, "Limit has been set.", Toast.LENGTH_LONG).show()
         }
 
-        if (soundLimit == "") {
-            txtSoundLimit.setText(defaultSoundLimit)
-        }
-
         btnSetAuto.setOnClickListener {
+            Toast.makeText(this, "The sound limit.is $soundLimit", Toast.LENGTH_LONG).show()
             if (auto == "True") {
                 auto = "False"
                 btnSetAuto.setBackgroundColor(Color.GRAY)
@@ -112,7 +114,7 @@ class AutoOnOffActivity : AppCompatActivity() {
         var ref = FirebaseDatabase.getInstance().getReference(dated).child(houred).child(timed)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                if(p0.child("light").value != null && p0.child("sound").value != null && p0.child("ultra").value != null){
+                if (p0.child("light").value != null && p0.child("sound").value != null && p0.child("ultra").value != null) {
                     light = p0.child("light").getValue().toString()
                     sound = p0.child("sound").getValue().toString()
                     ultra = p0.child("ultra").getValue().toString()
@@ -145,7 +147,7 @@ class AutoOnOffActivity : AppCompatActivity() {
                         light = "1"
                     }
                 }
-            }else{
+            } else {
                 light = "1"
             }
 
