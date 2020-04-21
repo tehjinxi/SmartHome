@@ -35,16 +35,20 @@ class GetDataActivity : AppCompatActivity() {
         val current = LocalDateTime.now()
 
         val date1 = DateTimeFormatter.ofPattern("yyyyMMdd")
+        val date2 = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val dated = current.format(date1)
+        val dated2 = current.format(date2)
         val hour1 =  DateTimeFormatter.ofPattern("HH")
         val houred = current.format(hour1)
         val time1 =  DateTimeFormatter.ofPattern("mmss")
         val timed = current.format(time1)
+        val hourMin =  DateTimeFormatter.ofPattern("HH:mm:ss")
+        val hourMined = current.format(hourMin)
 
         val path1 = "PI_01_"+dated
         //path 2 is hour
         val path3 = timed.substring(0,3) + "0"
-        datetimeView.text = path1+" "+houred+" "+path3
+        datetimeView.text = "This is the latest data by " + dated2 + " " + hourMined
 
         val cameraPath = "cam_" + dated + houred + path3 + ".jpg"
         getData(path1,houred,path3)
