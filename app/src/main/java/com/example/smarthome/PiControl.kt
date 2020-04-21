@@ -9,8 +9,7 @@ class PiControl (
     val lcd: String,
     val lcdtext: String,
     val led: String,
-    val light: String,
     val relay: String
 ): Parcelable {
-    constructor() : this("", "", "", "", "", "", "")
+    constructor() : this("0", "0", "1", "=App is running=", "0", "0")
 }
