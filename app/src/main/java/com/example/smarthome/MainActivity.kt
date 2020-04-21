@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //alertBtn.visibility = View.VISIBLE
+        alertBtn.visibility = View.VISIBLE
         alertBtn.setOnClickListener {
             //call activity
             val intent = Intent (this, AlertAvtivity::class.java)
