@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GetDataActivity"></activity>
-        <activity android:name=".AutoOnOffActivity"></activity>
+        <activity android:name=".AlertAvtivity"></activity>
+        <activity android:name=".GetDataActivity" />
+        <activity android:name=".AutoOnOffActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         .setDatabaseUrl("https://smart-home-iot-4b593.firebaseio.com")
         .build()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -72,7 +73,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        //alertBtn.visibility = View.VISIBLE
+        alertBtn.setOnClickListener {
+            //call activity
+            val intent = Intent (this, AlertAvtivity::class.java)
+            startActivity(intent)
+        }
 
         mHandler = Handler()
         mRunnable = Runnable {
@@ -210,6 +216,38 @@ class MainActivity : AppCompatActivity() {
                                                 if (piData != null) {
                                                     if (piData.sound.toInt() >= 800) {
                                                         alertBtn.visibility = View.VISIBLE
+                                                        //to update status for telegram
+                                                        val secondApp = FirebaseApp.getInstance("smart-home-iot-4b593")
+                                                        val hi = FirebaseDatabase.getInstance(secondApp).getReference("SendTele").setValue("1")
+                                                            .addOnCompleteListener{
+
+                                                            }
+                                                            .addOnFailureListener{
+
+                                                            }
+                                                        //to update status for time
+                                                        val hi2 = FirebaseDatabase.getInstance(secondApp).getReference("TimeAlert").setValue(dated+houred+timed)
+                                                            .addOnCompleteListener{
+
+                                                            }
+                                                            .addOnFailureListener{
+
+                                                            }
+
+                                                        val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
+                                                        database.child("camera").setValue("1")
+                                                            .addOnCompleteListener{
+                                                            }
+                                                            .addOnFailureListener{
+                                                            }
+
+                                                        //val database2 = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
+                                                        database.child("lcdtext").setValue("=Alarm Trigger= ")
+                                                            .addOnCompleteListener{
+                                                            }
+                                                            .addOnFailureListener{
+                                                            }
+
                                                     } else {
                                                         alertBtn.visibility = View.INVISIBLE
                                                     }
