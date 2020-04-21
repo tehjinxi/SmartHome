@@ -135,21 +135,20 @@ class AutoOnOffActivity : AppCompatActivity() {
     @ExperimentalTime
     private fun check() {
         getData()
-
+        Toast.makeText(this, "sound:$sound ultra:$ultra", Toast.LENGTH_LONG).show()
         if (sound != "" && ultra != "" && light != "") {
             if (sound.toInt() < soundLimit.toInt()) {
-                if (light == "1") {
-                    if (ultra.toInt() > 0) {
+                if (ultra.toInt() > 0) {
+                    if (light == "1") {
                         light = "0"
-                    }
-                } else if (light == "0") {
-                    if (ultra.toInt() > 0) {
+                    } else if (light == "0") {
                         light = "1"
                     }
                 }
-            } else {
-                light = "1"
             }
+        } else {
+            light = "1"
+        }
 
             val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
             database.child("led").setValue(light)
