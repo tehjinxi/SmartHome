@@ -73,16 +73,36 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        alertBtn.visibility = View.VISIBLE
+        //alertBtn.visibility = View.VISIBLE
         alertBtn.setOnClickListener {
             //call activity
             val intent = Intent (this, AlertAvtivity::class.java)
             startActivity(intent)
         }
 
+        var alarmActivate:Any? = null
+        //get alarm activated
+        val secondApp = FirebaseApp.getInstance("smart-home-iot-4b593")
+        val hi = FirebaseDatabase.getInstance(secondApp).getReference("AlarmActivated")
+        val menuListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                alarmActivate = dataSnapshot.getValue()
+                if (alarmActivate != null) {
+                }
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // handle error
+            }
+        }
+        hi.addListenerForSingleValueEvent(menuListener)
+
         mHandler = Handler()
         mRunnable = Runnable {
-            alert("alarmSys")
+            if(alarmActivate == "0"){
+                alert("alarmSys")
+            }
             mHandler.postDelayed(mRunnable, 5000)
         }
         mHandler.postDelayed(mRunnable, 5000)
@@ -233,6 +253,15 @@ class MainActivity : AppCompatActivity() {
                                                             .addOnFailureListener{
 
                                                             }
+                                                        //to update status for alarm rang
+                                                        val hi3 = FirebaseDatabase.getInstance(secondApp).getReference("AlarmActivated").setValue("1")
+                                                            .addOnCompleteListener{
+
+                                                            }
+                                                            .addOnFailureListener{
+
+                                                            }
+
 
                                                         val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
                                                         database.child("camera").setValue("1")
