@@ -150,10 +150,7 @@ class AutoOnOffActivity : AppCompatActivity() {
             light = "1"
         }
 
-            val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
-            database.child("led").setValue(light)
-        }
+        val database = FirebaseDatabase.getInstance().getReference("PI_01_CONTROL")
+        database.child("led").setValue(light)
     }
-
-
 }
